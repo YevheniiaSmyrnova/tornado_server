@@ -1,34 +1,31 @@
-import os
-
-import concurrent.futures
-from threading import Lock
-import requests
-
-lock = Lock()
-INPUT = "down.txt"
-THREADS = 10
+import json
+import tornado
+from tornado.httpclient import AsyncHTTPClient, HTTPRequest
+from tornado.testing import AsyncTestCase
 
 
-def download():
-    r = requests.post("http://127.0.0.1:8888", data={'message': 'Olympics are starting soon http://www.nbcolympics.com. See more at https://www.olympic.org'})
-    print(r.status_code, r.reason)
-    with lock:
-        print r
-    #os.system(str(r))
+class MyTestCase(AsyncTestCase):
+    def setUp(self):
+        self.request_count = 1000
+        self.maxDiff = None
+        super(MyTestCase, self).setUp()
 
-
-def main():
-    with concurrent.futures.ThreadPoolExecutor(max_workers=THREADS) as ex:
-        for i in range(THREADS):
-            #with open(INPUT) as mes:
-            c = ex.submit(download)
-            print(c.result())
-
-
-    [fetch(HttpRequest(url='', body='')) for _ in range(1000)]
-
-
-##########
-
-if __name__ == "__main__":
-    main()
+    @tornado.testing.gen_test(timeout=120)
+    def test_http_fetch(self):
+        client = AsyncHTTPClient(self.io_loop)
+        request_body = json.dumps(
+            {'message': 'Olympics are starting soon http://www.nbcolympics.com. '
+                        'See more at https://www.olympic.org'})
+        response = yield [client.fetch(HTTPRequest(
+            method='POST',
+            url='http://127.0.0.1:8888',
+            body=request_body,
+            connect_timeout=120,
+            request_timeout=120,)) for _ in range(self.request_count)]
+        data = json.dumps({"links":
+                [{"url": "http://www.nbcolympics.com",
+                "title": "2018 PyeongChang Olympic Games | NBC Olympics"},
+                {"url": "https://www.olympic.org",
+                "title": "Olympics | Olympic Games, Medals, Results, News | IOC"}]})
+        for i in range(self.request_count):
+            self.assertEqual(data, response[i].body)
