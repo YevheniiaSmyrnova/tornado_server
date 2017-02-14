@@ -8,30 +8,20 @@ Request:
 "Olympics are starting soon; http://www.nbcolympics.com. See more at https://www.olympic.org"
 
 Response:
-
+```
 {
-
   "links": [
-
     {
-
       "url": "http://www.nbcolympics.com",
-
       "title": "2018 Rio Olympic Games | NBC Olympics"
-
     },
-
     {
-
       "url": "https://www.olympic.org",
-
       "title": "Olympics | Olympic Games, Medals, Results, News | IOC"
-
     }
-
   ]
-
 }
+```
 
 # Installation
 To install:
