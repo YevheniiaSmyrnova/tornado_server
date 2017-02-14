@@ -29,7 +29,7 @@ class MainHandler(tornado.web.RequestHandler):
             dict_url_title['title'] = tree.findtext('.//title')
 
             list_urls_titles.append(dict_url_title)
-        http_client.close()
+        # http_client.close()
         data = {'links': list_urls_titles}
         self.write(json.dumps(data))
 
