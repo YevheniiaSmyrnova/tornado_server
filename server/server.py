@@ -40,7 +40,7 @@ def make_app():
     ])
 
 if __name__ == "__main__":
-    sock = tornado.netutil.bind_sockets(8888);
+    sock = tornado.netutil.bind_sockets(8888)
     server = tornado.httpserver.HTTPServer(make_app())
     server.add_sockets(sock)
     tornado.ioloop.IOLoop.current().start()

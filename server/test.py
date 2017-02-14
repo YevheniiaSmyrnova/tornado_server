@@ -14,7 +14,8 @@ class MyTestCase(AsyncTestCase):
     def test_http_fetch(self):
         client = AsyncHTTPClient(self.io_loop)
         request_body = json.dumps(
-            {'message': 'Olympics are starting soon http://www.nbcolympics.com. '
+            {'message': 'Olympics are starting soon '
+                        'http://www.nbcolympics.com. '
                         'See more at https://www.olympic.org'})
         response = yield [client.fetch(HTTPRequest(
             method='POST',
@@ -22,10 +23,11 @@ class MyTestCase(AsyncTestCase):
             body=request_body,
             connect_timeout=120,
             request_timeout=120,)) for _ in range(self.request_count)]
-        data = json.dumps({"links":
-                [{"url": "http://www.nbcolympics.com",
-                "title": "2018 PyeongChang Olympic Games | NBC Olympics"},
-                {"url": "https://www.olympic.org",
-                "title": "Olympics | Olympic Games, Medals, Results, News | IOC"}]})
+        data = json.dumps({"links": [
+            {"url": "http://www.nbcolympics.com",
+             "title": "2018 PyeongChang Olympic Games | NBC Olympics"},
+            {"url": "https://www.olympic.org",
+             "title": "Olympics | Olympic Games, Medals, Results, News | IOC"}
+        ]})
         for i in range(self.request_count):
             self.assertEqual(data, response[i].body)
