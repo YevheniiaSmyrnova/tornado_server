@@ -4,8 +4,9 @@ A web service which for a given request with plain text, containing urls, return
 **Example:**
 
 Request:
-
+```
 "Olympics are starting soon; http://www.nbcolympics.com. See more at https://www.olympic.org"
+```
 
 Response:
 ```
