@@ -24,23 +24,21 @@ Response:
 }
 ```
 
+# Technologies
+
+* Language: Python 2.7
+* Frameworks: Tornado
+
 # Installation
 To install:
 ```
-virtualenv .venv
-source .venv/bin/activate
-pip install -r requirements.txt
-```
-
-#RUN
-```
-cd server
-python server.py
+git clone https://github.com/YevheniiaSmyrnova/tornado_server.git
+cd tornado_server
+docker-compose up
 ```
 
 # TEST
 To run tornado test:
 ```
-cd server
-python -m tornado.testing server.test
+docker exec server_python_1 bash -c "cd server; python -m tornado.testing test"
 ```

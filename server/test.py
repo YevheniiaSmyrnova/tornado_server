@@ -4,13 +4,16 @@ from tornado.httpclient import AsyncHTTPClient, HTTPRequest
 from tornado.testing import AsyncTestCase
 
 
+TIMEOUT = 240
+
+
 class MyTestCase(AsyncTestCase):
     def setUp(self):
         self.request_count = 1000
         self.maxDiff = None
         super(MyTestCase, self).setUp()
 
-    @tornado.testing.gen_test(timeout=120)
+    @tornado.testing.gen_test(timeout=TIMEOUT)
     def test_http_fetch(self):
         client = AsyncHTTPClient(self.io_loop)
         request_body = json.dumps(
@@ -21,8 +24,8 @@ class MyTestCase(AsyncTestCase):
             method='POST',
             url='http://127.0.0.1:8888',
             body=request_body,
-            connect_timeout=120,
-            request_timeout=120,)) for _ in range(self.request_count)]
+            connect_timeout=TIMEOUT,
+            request_timeout=TIMEOUT,)) for _ in range(self.request_count)]
         data = json.dumps({"links": [
             {"url": "http://www.nbcolympics.com",
              "title": "2018 PyeongChang Olympic Games | NBC Olympics"},
