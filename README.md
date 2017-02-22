@@ -30,7 +30,6 @@ Response:
 * Frameworks: Tornado
 
 # Installation
-To install:
 ```
 git clone https://github.com/YevheniiaSmyrnova/tornado_server.git
 cd tornado_server
@@ -38,7 +37,6 @@ docker-compose up
 ```
 
 # TEST
-To run tornado test:
 ```
 docker exec server_python_1 bash -c "cd server; python -m tornado.testing test"
 ```
